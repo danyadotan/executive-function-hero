@@ -1,8 +1,16 @@
-# Executive Function Hero 🎮
-Part of the **Bridged!** module inside the **Bridge-iT** freemium app.
+# Run and deploy your AI Studio app
 
-## About
-An 80’s-style challenge game for executive function training — routines, habits, and reaction speed,  
-designed for the Pac-Man generation and beyond.
+This contains everything you need to run your app locally.
 
-© 2025 Dynamic Bridge | All rights reserved.
+View your app in AI Studio: https://ai.studio/apps/drive/1ORpfd0FIqQYkfcLQNHN-tFgX8bTCQ1Kz?showAssistant=true&showCode=true&showTreeView=true&showPreview=true&resourceKey=
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
