@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Executive Function Hero</title>
+    <title>Git Quest: Branch Hero - Learn Git Through Adventure!</title>
+    <meta name="description" content="An AI-powered adventure game that teaches Git through storytelling. Guided by Keif the Kraken. Made for GitKon 2025." />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,10 +12,10 @@
     <style>
       body {
         font-family: 'VT323', monospace;
-        --neon-pink: #f0f;
-        --neon-cyan: #0ff;
-        --neon-yellow: #ff0;
-        --bg-color: #0d0221;
+        --neon-purple: #a855f7;
+        --neon-cyan: #22d3ee;
+        --neon-green: #22c55e;
+        --bg-color: #0a0014;
         background-color: var(--bg-color);
         text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
       }
@@ -25,15 +26,15 @@
         font-family: 'Atkinson Hyperlegible', sans-serif;
       }
       .neon-border {
-        border: 2px solid var(--neon-cyan);
-        box-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan) inset;
+        border: 2px solid var(--neon-purple);
+        box-shadow: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple) inset;
       }
       .neon-button:hover {
-        background-color: rgba(0, 255, 255, 0.1);
-        color: var(--neon-yellow);
-        border-color: var(--neon-yellow);
-        text-shadow: 0 0 5px var(--neon-yellow);
-        box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+        background-color: rgba(168, 85, 247, 0.1);
+        color: var(--neon-green);
+        border-color: var(--neon-green);
+        text-shadow: 0 0 5px var(--neon-green);
+        box-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
       }
       .scanline-overlay {
         position: fixed;
@@ -45,7 +46,7 @@
         background: linear-gradient(to bottom, rgba(18, 18, 18, 0), rgba(18, 18, 18, 0.4) 50%, rgba(18, 18, 18, 0));
         background-size: 100% 3px;
         z-index: 9999;
-        opacity: 0.5;
+        opacity: 0.3;
         animation: scanline 20s linear infinite;
       }
       @keyframes scanline {
@@ -55,11 +56,11 @@
       @keyframes flicker {
         0%, 18%, 22%, 25%, 53%, 57%, 100% {
           text-shadow:
-            0 0 4px var(--neon-pink),
-            0 0 11px var(--neon-pink),
-            0 0 19px var(--neon-pink);
+            0 0 4px var(--neon-purple),
+            0 0 11px var(--neon-purple),
+            0 0 19px var(--neon-purple);
         }
-        20%, 24%, 55% {       
+        20%, 24%, 55% {
           text-shadow: none;
         }
       }
@@ -75,7 +76,7 @@
           animation: pop-out 2s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
       }
 
-      /* New Grid Background */
+      /* Git-themed Grid Background */
       #grid-background {
         position: fixed;
         top: 0;
@@ -83,7 +84,7 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        --grid-color: rgba(0, 255, 255, 0.2);
+        --grid-color: rgba(168, 85, 247, 0.15);
         background-image:
           linear-gradient(var(--grid-color) 1px, transparent 1px),
           linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
@@ -103,11 +104,11 @@
           100% { background-position: -1000px -1000px; }
       }
 
-      /* New UI Panel Styling */
+      /* UI Panel Styling - GitKraken themed */
       .ui-panel {
         position: relative;
-        border: 1px solid rgba(0, 255, 255, 0.3);
-        background-color: rgba(13, 2, 33, 0.5);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        background-color: rgba(10, 0, 20, 0.7);
         backdrop-filter: blur(2px);
       }
       .ui-corner {
@@ -115,12 +116,21 @@
         width: 20px;
         height: 20px;
         border-style: solid;
-        border-color: var(--neon-cyan);
+        border-color: var(--neon-purple);
       }
       .ui-corner.top-left { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
       .ui-corner.top-right { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
       .ui-corner.bottom-left { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
       .ui-corner.bottom-right { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+      /* Commit graph animation */
+      @keyframes pulse-commit {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      .animate-pulse-commit {
+        animation: pulse-commit 2s ease-in-out infinite;
+      }
 
     </style>
   <script type="importmap">
@@ -133,7 +143,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-black text-cyan-300">
     <div id="grid-background"></div>

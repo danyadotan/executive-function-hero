@@ -1,8 +1,9 @@
 {
-  "name": "executive-function-hero",
+  "name": "git-quest-branch-hero",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Learn Git through adventure! An AI-powered game for GitKon 2025.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -15,7 +16,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  }
+  },
+  "keywords": ["git", "gitkraken", "gitkon", "game", "education", "ai"],
+  "author": "GitKon 2025 Game Jam Entry"
 }

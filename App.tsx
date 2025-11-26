@@ -8,6 +8,7 @@ import LoadingIndicator from './components/LoadingIndicator';
 import ErrorDisplay from './components/ErrorDisplay';
 import SettingsPanel from './components/SettingsPanel';
 import SettingsButton from './components/SettingsButton';
+import CommitGraph from './components/CommitGraph';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START_MENU);
@@ -15,6 +16,7 @@ const App: React.FC = () => {
   const [storyHistory, setStoryHistory] = useState<StoryTurn[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [commitCount, setCommitCount] = useState(0);
   const [scoreFeedback, setScoreFeedback] = useState<{ key: number; text: string; score: number } | null>(null);
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [isDyslexiaFont, setDyslexiaFont] = useState(() => {
@@ -35,10 +37,12 @@ const App: React.FC = () => {
     setGameState(GameState.LOADING);
     setError(null);
     setScore(0);
+    setCommitCount(0);
     try {
       const sceneData = await getNextScene([], 'Begin Game', 0);
       setCurrentScene(sceneData);
       setStoryHistory([]);
+      setCommitCount(1);
       setGameState(GameState.PLAYING);
     } catch (err) {
       console.error(err);
@@ -58,18 +62,20 @@ const App: React.FC = () => {
       choice: choice,
     };
     const updatedHistory = [...storyHistory, newTurn];
-    
+
     try {
       const sceneData = await getNextScene(updatedHistory, choice, score);
       setCurrentScene(sceneData);
       setStoryHistory(updatedHistory);
-      
+
       const newScore = score + sceneData.score_change;
       setScore(newScore);
+      setCommitCount(prev => prev + 1);
+
       if(sceneData.score_change !== 0) {
         setScoreFeedback({ key: Date.now(), text: sceneData.feedback, score: sceneData.score_change });
       }
-      
+
       setGameState(GameState.PLAYING);
     } catch (err) {
       console.error(err);
@@ -85,8 +91,8 @@ const App: React.FC = () => {
          <div className="ui-corner top-right"></div>
          <div className="ui-corner bottom-left"></div>
          <div className="ui-corner bottom-right"></div>
-        <h2 className="text-2xl md:text-3xl text-pink-400 font-pixel tracking-widest">FLOW</h2>
-        <div className="text-3xl md:text-4xl text-yellow-300 font-pixel">{score}</div>
+        <h2 className="text-xl md:text-2xl text-purple-400 font-pixel tracking-wider">COMMITS</h2>
+        <div className="text-3xl md:text-4xl text-green-400 font-pixel">{score}</div>
         <SettingsButton onClick={() => setSettingsOpen(true)} />
       </div>
     </div>
@@ -105,7 +111,7 @@ const App: React.FC = () => {
               <SceneDisplay scene={currentScene} />
               <div className="w-full mt-8 grid grid-cols-1 gap-4">
                 {currentScene.choices.map((choice, index) => (
-                  <ChoiceButton key={index} choice={choice} onChoose={handleChoice} />
+                  <ChoiceButton key={index} choice={choice} onChoose={handleChoice} index={index} />
                 ))}
               </div>
             </div>
@@ -124,14 +130,20 @@ const App: React.FC = () => {
   return (
     <main className={`min-h-screen w-full flex flex-col items-center justify-center p-4 transition-colors duration-500 relative ${isDyslexiaFont ? 'font-dyslexia' : ''}`}>
       {gameState !== GameState.START_MENU && renderGameHUD()}
-       {scoreFeedback && (
+
+      {/* Commit Graph visualization */}
+      {gameState === GameState.PLAYING && (
+        <CommitGraph commitCount={commitCount} />
+      )}
+
+      {scoreFeedback && (
         <div key={scoreFeedback.key} className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 p-6 bg-black bg-opacity-80 rounded-lg ui-panel text-center animate-pop-out">
           <div className="ui-corner top-left"></div>
           <div className="ui-corner top-right"></div>
           <div className="ui-corner bottom-left"></div>
           <div className="ui-corner bottom-right"></div>
-          <p className="text-4xl font-pixel text-yellow-300">{scoreFeedback.text}</p>
-          <p className={`text-5xl font-pixel mt-2 ${scoreColor}`}>+{scoreFeedback.score}</p>
+          <p className="text-3xl font-pixel text-green-400">{scoreFeedback.text}</p>
+          <p className={`text-4xl font-pixel mt-2 ${scoreColor}`}>+{scoreFeedback.score}</p>
         </div>
       )}
       {renderContent()}
