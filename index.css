@@ -1,0 +1,342 @@
+/* Executive Function Hero - Main Styles */
+/* A sensory-friendly, accessible design system */
+
+/* ===== CSS Variables for Themes ===== */
+:root {
+  --neon-pink: #f0f;
+  --neon-cyan: #0ff;
+  --neon-yellow: #ff0;
+  --bg-color: #0d0221;
+  --text-primary: #67e8f9;
+  --text-secondary: #a5f3fc;
+
+  /* Calm mode colors (softer) */
+  --calm-pink: #c084fc;
+  --calm-cyan: #7dd3fc;
+  --calm-yellow: #fde047;
+  --calm-bg: #1e1b4b;
+}
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ===== Accessibility - Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ===== Calm Mode ===== */
+.calm-mode {
+  --neon-pink: var(--calm-pink);
+  --neon-cyan: var(--calm-cyan);
+  --neon-yellow: var(--calm-yellow);
+  --bg-color: var(--calm-bg);
+}
+
+.calm-mode body {
+  background-color: var(--calm-bg);
+}
+
+.calm-mode .flicker-text {
+  animation: none !important;
+}
+
+.calm-mode .scanline-overlay {
+  opacity: 0.2;
+}
+
+.calm-mode #grid-background {
+  --grid-color: rgba(125, 211, 252, 0.1);
+  animation-duration: 120s;
+}
+
+/* ===== High Contrast Mode ===== */
+.high-contrast {
+  --neon-pink: #ff66ff;
+  --neon-cyan: #66ffff;
+  --neon-yellow: #ffff66;
+  --bg-color: #000000;
+}
+
+.high-contrast .ui-panel {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-width: 3px;
+}
+
+.high-contrast .neon-border {
+  border-width: 3px;
+}
+
+/* ===== Font Styles ===== */
+.font-pixel {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.font-dyslexia {
+  font-family: 'Atkinson Hyperlegible', sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+
+.font-dyslexia * {
+  font-family: 'Atkinson Hyperlegible', sans-serif !important;
+}
+
+.font-dyslexia .font-pixel {
+  font-family: 'Atkinson Hyperlegible', sans-serif !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== Animations ===== */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+  }
+  50% {
+    box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== UI Components ===== */
+.ui-panel {
+  position: relative;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  background-color: rgba(13, 2, 33, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.ui-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-style: solid;
+  border-color: var(--neon-cyan);
+}
+
+.ui-corner.top-left { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.ui-corner.top-right { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+.ui-corner.bottom-left { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+.ui-corner.bottom-right { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+.neon-border {
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan) inset;
+}
+
+.neon-button {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+}
+
+.neon-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  color: var(--neon-yellow);
+  border-color: var(--neon-yellow);
+  text-shadow: 0 0 5px var(--neon-yellow);
+  box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+
+.neon-button:focus {
+  outline: 2px solid var(--neon-yellow);
+  outline-offset: 2px;
+}
+
+.neon-button:active {
+  transform: scale(0.98);
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(13, 2, 33, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-cyan);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-pink);
+}
+
+/* ===== Focus Styles for Accessibility ===== */
+:focus-visible {
+  outline: 2px solid var(--neon-yellow);
+  outline-offset: 2px;
+}
+
+/* Skip link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--bg-color);
+  color: var(--neon-cyan);
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ===== Selection Styling ===== */
+::selection {
+  background-color: var(--neon-pink);
+  color: var(--bg-color);
+}
+
+/* ===== Utility Classes ===== */
+.text-balance {
+  text-wrap: balance;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .scanline-overlay,
+  #grid-background,
+  .neon-border,
+  .ui-corner {
+    display: none !important;
+  }
+
+  .ui-panel {
+    border: 1px solid #333;
+    background: white;
+  }
+}
+
+/* ===== Responsive Typography ===== */
+@media (max-width: 640px) {
+  .font-pixel {
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== Loading States ===== */
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 255, 0.1) 25%,
+    rgba(0, 255, 255, 0.2) 50%,
+    rgba(0, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== Sensory Break Reminder ===== */
+.sensory-break-reminder {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  background: rgba(147, 51, 234, 0.9);
+  border-radius: 8px;
+  border: 2px solid #c084fc;
+  color: white;
+  font-size: 14px;
+  z-index: 1000;
+  animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
