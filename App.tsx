@@ -9,6 +9,7 @@ import ErrorDisplay from './components/ErrorDisplay';
 import SettingsPanel from './components/SettingsPanel';
 import SettingsButton from './components/SettingsButton';
 import LearnPage from './components/LearnPage';
+import CommitGraph from './components/CommitGraph';
 
 // Extended app state to include Learn page
 enum AppView {
@@ -258,7 +259,7 @@ const App: React.FC = () => {
           <p className={`text-4xl font-pixel mt-2 ${scoreColor}`}>+{scoreFeedback.score}</p>
         </div>
       )}
-      {renderContent()}
+      {renderGameContent()}
       {isSettingsOpen && (
         <SettingsPanel
           onClose={() => setSettingsOpen(false)}
