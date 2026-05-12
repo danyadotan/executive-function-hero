@@ -63,3 +63,4 @@ jobs:
 *.sw?
 *.zip
 .netlify/
+.vite/
