@@ -2,9 +2,10 @@ import React from 'react';
 
 interface StartScreenProps {
   onStart: () => void;
+  onLearn?: () => void;
 }
 
-const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
+const StartScreen: React.FC<StartScreenProps> = ({ onStart, onLearn }) => {
   return (
     <div className="flex flex-col items-center justify-center text-center p-8">
       {/* Keif the Kraken ASCII Art */}
@@ -44,6 +45,17 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
           <span className="relative z-10">git init adventure</span>
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
         </button>
+
+        {onLearn && (
+          <button
+            onClick={onLearn}
+            className="px-6 py-3 text-lg font-pixel text-purple-300 border-2 border-purple-400
+                       hover:bg-purple-400/20 hover:text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]
+                       transition-all duration-300"
+          >
+            git learn
+          </button>
+        )}
 
         <p className="text-sm text-purple-400/70 mt-4">
           Powered by GitKraken
