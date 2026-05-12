@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [storyHistory, setStoryHistory] = useState<StoryTurn[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [commitCount, setCommitCount] = useState(0);
   const [scoreFeedback, setScoreFeedback] = useState<{ key: number; text: string; score: number } | null>(null);
 
   // Settings state
@@ -119,11 +120,12 @@ const App: React.FC = () => {
     setGameState(GameState.LOADING);
     setError(null);
     setScore(0);
-    setPlayTime(0);
+    setCommitCount(0);
     try {
       const sceneData = await getNextScene([], 'Begin Game', 0);
       setCurrentScene(sceneData);
       setStoryHistory([]);
+      setCommitCount(1);
       setGameState(GameState.PLAYING);
     } catch (err) {
       console.error(err);
@@ -151,7 +153,9 @@ const App: React.FC = () => {
 
       const newScore = score + sceneData.score_change;
       setScore(newScore);
-      if (sceneData.score_change !== 0) {
+      setCommitCount(prev => prev + 1);
+
+      if(sceneData.score_change !== 0) {
         setScoreFeedback({ key: Date.now(), text: sceneData.feedback, score: sceneData.score_change });
       }
 
@@ -175,27 +179,12 @@ const App: React.FC = () => {
   const renderGameHUD = () => (
     <div className="fixed top-0 left-0 right-0 p-4 z-10">
       <div className="w-full max-w-3xl mx-auto flex justify-between items-center bg-black/50 p-3 relative">
-        <div className="ui-corner top-left"></div>
-        <div className="ui-corner top-right"></div>
-        <div className="ui-corner bottom-left"></div>
-        <div className="ui-corner bottom-right"></div>
-
-        {/* Home button */}
-        <button
-          onClick={handleNavigateToHome}
-          className="neon-border neon-button px-3 py-1 rounded text-sm"
-          aria-label="Return to home"
-        >
-          HOME
-        </button>
-
-        {/* Score display */}
-        <div className="flex items-center gap-4">
-          <h2 className="text-2xl md:text-3xl text-pink-400 font-pixel tracking-widest">FLOW</h2>
-          <div className="text-3xl md:text-4xl text-yellow-300 font-pixel">{score}</div>
-        </div>
-
-        {/* Settings */}
+         <div className="ui-corner top-left"></div>
+         <div className="ui-corner top-right"></div>
+         <div className="ui-corner bottom-left"></div>
+         <div className="ui-corner bottom-right"></div>
+        <h2 className="text-xl md:text-2xl text-purple-400 font-pixel tracking-wider">COMMITS</h2>
+        <div className="text-3xl md:text-4xl text-green-400 font-pixel">{score}</div>
         <SettingsButton onClick={() => setSettingsOpen(true)} />
       </div>
     </div>
@@ -214,7 +203,7 @@ const App: React.FC = () => {
               <SceneDisplay scene={currentScene} />
               <div className="w-full mt-8 grid grid-cols-1 gap-4">
                 {currentScene.choices.map((choice, index) => (
-                  <ChoiceButton key={index} choice={choice} onChoose={handleChoice} />
+                  <ChoiceButton key={index} choice={choice} onChoose={handleChoice} index={index} />
                 ))}
               </div>
 
@@ -251,72 +240,33 @@ const App: React.FC = () => {
   ].filter(Boolean).join(' ');
 
   return (
-    <>
-      {/* Skip to main content link for accessibility */}
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
+    <main className={`min-h-screen w-full flex flex-col items-center justify-center p-4 transition-colors duration-500 relative ${isDyslexiaFont ? 'font-dyslexia' : ''}`}>
+      {gameState !== GameState.START_MENU && renderGameHUD()}
 
-      <main id="main-content" className={mainClasses}>
-        {/* Game HUD - only show during active gameplay */}
-        {appView === AppView.GAME && gameState !== GameState.START_MENU && renderGameHUD()}
+      {/* Commit Graph visualization */}
+      {gameState === GameState.PLAYING && (
+        <CommitGraph commitCount={commitCount} />
+      )}
 
-        {/* Score feedback popup */}
-        {scoreFeedback && (
-          <div
-            key={scoreFeedback.key}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 p-6 bg-black bg-opacity-80 rounded-lg ui-panel text-center animate-pop-out"
-          >
-            <div className="ui-corner top-left"></div>
-            <div className="ui-corner top-right"></div>
-            <div className="ui-corner bottom-left"></div>
-            <div className="ui-corner bottom-right"></div>
-            <p className="text-4xl font-pixel text-yellow-300">{scoreFeedback.text}</p>
-            <p className={`text-5xl font-pixel mt-2 ${scoreColor}`}>+{scoreFeedback.score}</p>
-          </div>
-        )}
-
-        {/* Main content based on app view */}
-        {appView === AppView.HOME && (
-          <StartScreen onStart={handleStartGame} onLearn={handleNavigateToLearn} />
-        )}
-        {appView === AppView.LEARN && (
-          <LearnPage onBack={handleNavigateToHome} />
-        )}
-        {appView === AppView.GAME && renderGameContent()}
-
-        {/* Sensory break reminder */}
-        {showBreakReminder && (
-          <div className="sensory-break-reminder">
-            <p className="font-bold mb-1">Time for a sensory break?</p>
-            <p className="text-sm">
-              You've been playing for a while. Consider stretching, getting water, or taking a short break.
-            </p>
-            <button
-              onClick={() => setShowBreakReminder(false)}
-              className="mt-2 text-sm underline hover:text-cyan-300"
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
-
-        {/* Settings panel */}
-        {isSettingsOpen && (
-          <SettingsPanel
-            onClose={() => setSettingsOpen(false)}
-            isDyslexiaFont={isDyslexiaFont}
-            onToggleDyslexiaFont={() => setDyslexiaFont((prev) => !prev)}
-            isReducedMotion={isReducedMotion}
-            onToggleReducedMotion={() => setReducedMotion((prev) => !prev)}
-            isCalmMode={isCalmMode}
-            onToggleCalmMode={() => setCalmMode((prev) => !prev)}
-            isHighContrast={isHighContrast}
-            onToggleHighContrast={() => setHighContrast((prev) => !prev)}
-          />
-        )}
-      </main>
-    </>
+      {scoreFeedback && (
+        <div key={scoreFeedback.key} className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 p-6 bg-black bg-opacity-80 rounded-lg ui-panel text-center animate-pop-out">
+          <div className="ui-corner top-left"></div>
+          <div className="ui-corner top-right"></div>
+          <div className="ui-corner bottom-left"></div>
+          <div className="ui-corner bottom-right"></div>
+          <p className="text-3xl font-pixel text-green-400">{scoreFeedback.text}</p>
+          <p className={`text-4xl font-pixel mt-2 ${scoreColor}`}>+{scoreFeedback.score}</p>
+        </div>
+      )}
+      {renderContent()}
+      {isSettingsOpen && (
+        <SettingsPanel
+          onClose={() => setSettingsOpen(false)}
+          isDyslexiaFont={isDyslexiaFont}
+          onToggleDyslexiaFont={() => setDyslexiaFont(prev => !prev)}
+        />
+      )}
+    </main>
   );
 };
 

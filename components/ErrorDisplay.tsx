@@ -30,11 +30,15 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ message, onRetry }) => {
 
         <button
           onClick={onRetry}
-          className="neon-border neon-button px-8 py-3 text-cyan-300 rounded-lg
-                     transition-all duration-300 hover:shadow-lg"
+          className="px-6 py-3 font-pixel text-cyan-300 border-2 border-cyan-400
+                     hover:bg-cyan-400/20 hover:text-white transition-all duration-300"
         >
-          <span className="font-pixel text-sm">TRY AGAIN</span>
+          git reset --soft HEAD~1
         </button>
+
+        <p className="text-sm text-purple-400 mt-4">
+          (Try again)
+        </p>
       </div>
     </div>
   );

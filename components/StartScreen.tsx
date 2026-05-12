@@ -1,172 +1,71 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface StartScreenProps {
   onStart: () => void;
-  onLearn: () => void;
 }
 
-const SensoryInfoCard: React.FC<{
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-}> = ({ title, description, icon, color }) => (
-  <div className={`ui-panel p-4 rounded-lg ${color} transition-transform hover:scale-105`}>
-    <div className="ui-corner top-left"></div>
-    <div className="ui-corner top-right"></div>
-    <div className="ui-corner bottom-left"></div>
-    <div className="ui-corner bottom-right"></div>
-    <div className="text-3xl mb-2">{icon}</div>
-    <h3 className="text-lg font-bold mb-1 text-cyan-300">{title}</h3>
-    <p className="text-sm text-cyan-200 opacity-90">{description}</p>
-  </div>
-);
-
-const StartScreen: React.FC<StartScreenProps> = ({ onStart, onLearn }) => {
-  const [showInfo, setShowInfo] = useState(false);
-
-  const sensoryTypes = [
-    {
-      title: "Visual",
-      description: "How we process what we see - lights, colors, movement",
-      icon: "👁️",
-      color: "border-pink-400"
-    },
-    {
-      title: "Auditory",
-      description: "How we process sounds - volume, pitch, background noise",
-      icon: "👂",
-      color: "border-cyan-400"
-    },
-    {
-      title: "Tactile",
-      description: "How we feel touch - textures, pressure, temperature",
-      icon: "✋",
-      color: "border-yellow-400"
-    },
-    {
-      title: "Vestibular",
-      description: "Our sense of balance and movement in space",
-      icon: "🔄",
-      color: "border-green-400"
-    },
-    {
-      title: "Proprioceptive",
-      description: "Awareness of our body position and muscle control",
-      icon: "🏃",
-      color: "border-purple-400"
-    },
-    {
-      title: "Interoceptive",
-      description: "Internal body signals like hunger, thirst, emotions",
-      icon: "💗",
-      color: "border-red-400"
-    }
-  ];
-
+const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 w-full max-w-4xl mx-auto">
-      {/* Hero Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-6xl font-pixel text-pink-400 flicker-text mb-4 tracking-wider">
-          EXECUTIVE
-        </h1>
-        <h1 className="text-4xl md:text-6xl font-pixel text-cyan-400 mb-4 tracking-wider">
-          FUNCTION
-        </h1>
-        <h1 className="text-4xl md:text-6xl font-pixel text-yellow-300 mb-6 tracking-wider">
-          HERO
-        </h1>
-        <p className="text-xl md:text-2xl text-cyan-200 max-w-lg mx-auto leading-relaxed">
-          A gentle, supportive adventure for minds that work differently
-        </p>
-      </div>
+    <div className="flex flex-col items-center justify-center text-center p-8">
+      {/* Keif the Kraken ASCII Art */}
+      <pre className="text-purple-400 text-xs md:text-sm mb-6 font-mono leading-tight">
+{`      ___
+   .-'   '-.
+  /  .---.  \\
+ |  /     \\  |
+ | |  O O  | |
+ |  \\ ._. /  |
+  \\  '---'  /
+   '._____.'\n    /|   |\\
+   (_|   |_)`}
+      </pre>
 
-      {/* Quick Info Banner */}
-      <div className="ui-panel p-4 mb-8 rounded-lg max-w-2xl w-full">
-        <div className="ui-corner top-left"></div>
-        <div className="ui-corner top-right"></div>
-        <div className="ui-corner bottom-left"></div>
-        <div className="ui-corner bottom-right"></div>
-        <p className="text-center text-cyan-200 text-lg">
-          <span className="text-yellow-300">Did you know?</span> Everyone processes sensory information differently.
-          This game is designed with neurodivergent minds in mind - including ADHD, autism, and sensory processing differences.
-        </p>
-      </div>
+      <h1 className="text-4xl md:text-6xl font-pixel text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 mb-4 flicker-text">
+        GIT QUEST
+      </h1>
+      <h2 className="text-xl md:text-2xl font-pixel text-cyan-300 mb-8">
+        BRANCH HERO
+      </h2>
 
-      {/* Main Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full max-w-md">
+      <p className="text-lg md:text-xl text-purple-300 mb-2 max-w-md">
+        Learn Git through adventure!
+      </p>
+      <p className="text-md text-cyan-400 mb-8 max-w-md">
+        Keif the Kraken will guide you through merge conflicts, rebasing, and more.
+      </p>
+
+      <div className="flex flex-col gap-4 items-center">
         <button
           onClick={onStart}
-          className="flex-1 neon-border neon-button px-8 py-4 text-xl text-cyan-300 rounded-lg transition-all duration-300 hover:shadow-lg"
+          className="px-8 py-4 text-xl font-pixel text-cyan-300 border-2 border-cyan-400
+                     hover:bg-cyan-400/20 hover:text-white hover:shadow-[0_0_20px_rgba(0,255,255,0.5)]
+                     transition-all duration-300 relative group"
         >
-          <span className="font-pixel text-sm">START QUEST</span>
+          <span className="relative z-10">git init adventure</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
         </button>
-        <button
-          onClick={onLearn}
-          className="flex-1 neon-border neon-button px-8 py-4 text-xl text-cyan-300 rounded-lg transition-all duration-300 hover:shadow-lg"
-        >
-          <span className="font-pixel text-sm">LEARN MORE</span>
-        </button>
+
+        <p className="text-sm text-purple-400/70 mt-4">
+          Powered by GitKraken
+        </p>
       </div>
 
-      {/* Toggle Sensory Info */}
-      <button
-        onClick={() => setShowInfo(!showInfo)}
-        className="text-cyan-400 hover:text-yellow-300 transition-colors mb-6 underline text-lg"
-      >
-        {showInfo ? "Hide" : "Show"} Sensory Systems Guide
-      </button>
-
-      {/* Sensory Systems Grid */}
-      {showInfo && (
-        <div className="w-full animate-fade-in">
-          <h2 className="text-2xl font-pixel text-pink-400 text-center mb-6">
-            THE 8 SENSORY SYSTEMS
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {sensoryTypes.map((type, index) => (
-              <SensoryInfoCard key={index} {...type} />
-            ))}
-          </div>
-
-          {/* Understanding Section */}
-          <div className="ui-panel p-6 rounded-lg mt-6">
-            <div className="ui-corner top-left"></div>
-            <div className="ui-corner top-right"></div>
-            <div className="ui-corner bottom-left"></div>
-            <div className="ui-corner bottom-right"></div>
-            <h3 className="text-xl font-pixel text-yellow-300 mb-4">Understanding Sensory Differences</h3>
-            <div className="space-y-3 text-cyan-200">
-              <p>
-                <span className="text-pink-400 font-bold">Hypersensitivity (Over-responsive):</span> When
-                sensory input feels too intense - bright lights seem blinding, sounds feel overwhelming.
-              </p>
-              <p>
-                <span className="text-cyan-400 font-bold">Hyposensitivity (Under-responsive):</span> When
-                more sensory input is needed - seeking movement, pressure, or intense flavors.
-              </p>
-              <p>
-                <span className="text-yellow-300 font-bold">SPD (Sensory Processing Disorder):</span> When
-                the brain has difficulty organizing sensory information, affecting daily activities.
-              </p>
-              <p>
-                <span className="text-green-400 font-bold">Executive Function:</span> Brain skills that
-                help with planning, focus, and managing tasks - often affected in ADHD and autism.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Footer Info */}
-      <div className="mt-8 text-center text-cyan-400 opacity-75">
-        <p className="text-sm">
-          Built with love for neurodivergent families
-        </p>
-        <p className="text-xs mt-2">
-          Uses gentle gamification to support executive function development
-        </p>
+      {/* Decorative commit graph */}
+      <div className="absolute bottom-8 left-8 opacity-30">
+        <svg width="100" height="200" className="text-cyan-400">
+          <circle cx="20" cy="20" r="8" fill="currentColor" />
+          <line x1="20" y1="28" x2="20" y2="60" stroke="currentColor" strokeWidth="2" />
+          <circle cx="20" cy="68" r="8" fill="currentColor" />
+          <line x1="20" y1="76" x2="20" y2="108" stroke="currentColor" strokeWidth="2" />
+          <line x1="28" y1="68" x2="60" y2="68" stroke="currentColor" strokeWidth="2" />
+          <circle cx="68" cy="68" r="8" fill="#a855f7" />
+          <line x1="68" y1="76" x2="68" y2="108" stroke="#a855f7" strokeWidth="2" />
+          <circle cx="20" cy="116" r="8" fill="currentColor" />
+          <line x1="20" y1="124" x2="20" y2="156" stroke="currentColor" strokeWidth="2" />
+          <circle cx="68" cy="116" r="8" fill="#a855f7" />
+          <line x1="60" y1="116" x2="28" y2="156" stroke="#a855f7" strokeWidth="2" />
+          <circle cx="20" cy="164" r="8" fill="#22c55e" />
+        </svg>
       </div>
     </div>
   );

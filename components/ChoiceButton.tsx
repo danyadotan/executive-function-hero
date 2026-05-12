@@ -3,6 +3,7 @@ import React from 'react';
 interface ChoiceButtonProps {
   choice: string;
   onChoose: (choice: string) => void;
+  index?: number;
 }
 
 const ChoiceButton: React.FC<ChoiceButtonProps> = ({ choice, onChoose }) => {

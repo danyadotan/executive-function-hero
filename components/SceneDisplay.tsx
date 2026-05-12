@@ -7,37 +7,42 @@ interface SceneDisplayProps {
 
 const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene }) => {
   return (
-    <div className="w-full ui-panel p-6 rounded-lg">
+    <div className="w-full ui-panel p-6 relative">
       <div className="ui-corner top-left"></div>
       <div className="ui-corner top-right"></div>
       <div className="ui-corner bottom-left"></div>
       <div className="ui-corner bottom-right"></div>
 
-      {/* Scene Image */}
       {scene.imageUrl && (
-        <div className="mb-6 rounded-lg overflow-hidden neon-border">
+        <div className="mb-6 rounded overflow-hidden border border-purple-500/30">
           <img
             src={scene.imageUrl}
-            alt="Scene illustration"
+            alt="Scene"
             className="w-full h-48 md:h-64 object-cover"
           />
         </div>
       )}
 
-      {/* Story Text */}
-      <div className="text-lg md:text-xl text-cyan-200 leading-relaxed">
-        <p className="whitespace-pre-wrap">{scene.story}</p>
-      </div>
+      <div className="flex items-start gap-4">
+        {/* Keif avatar */}
+        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-2xl border-2 border-purple-400">
+          🐙
+        </div>
 
-      {/* Sensory Tip (randomly shown) */}
-      {Math.random() > 0.7 && (
-        <div className="mt-4 p-3 rounded bg-purple-900/30 border border-purple-400/30">
-          <p className="text-sm text-purple-300">
-            <span className="text-yellow-300">Sensory Tip:</span> Take a moment to notice how your body feels.
-            Are you comfortable? Need to stretch or adjust?
+        <div className="flex-1">
+          <p className="text-lg md:text-xl text-cyan-100 leading-relaxed">
+            {scene.story}
           </p>
         </div>
-      )}
+      </div>
+
+      {/* Git status indicator */}
+      <div className="mt-4 pt-4 border-t border-cyan-500/20">
+        <code className="text-sm text-green-400 font-mono">
+          $ git status
+          <span className="text-purple-400 ml-2">// Your adventure continues...</span>
+        </code>
+      </div>
     </div>
   );
 };
