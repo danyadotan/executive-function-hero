@@ -29,6 +29,17 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({ choice, onChoose, index = 0
       {/* Hover effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-cyan-500/0
                       translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+}
+
+const ChoiceButton: React.FC<ChoiceButtonProps> = ({ choice, onChoose }) => {
+  return (
+    <button
+      onClick={() => onChoose(choice)}
+      className="w-full neon-border neon-button p-4 text-left text-cyan-300 rounded-lg
+                 transition-all duration-300 hover:shadow-lg hover:translate-x-1
+                 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-transparent"
+    >
+      <span className="text-lg md:text-xl">{choice}</span>
     </button>
   );
 };

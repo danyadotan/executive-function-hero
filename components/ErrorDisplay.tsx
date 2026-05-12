@@ -7,22 +7,25 @@ interface ErrorDisplayProps {
 
 const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ message, onRetry }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center">
-      <div className="ui-panel p-8 max-w-md relative">
+    <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 max-w-lg mx-auto">
+      <div className="ui-panel p-8 rounded-lg text-center">
         <div className="ui-corner top-left"></div>
         <div className="ui-corner top-right"></div>
         <div className="ui-corner bottom-left"></div>
         <div className="ui-corner bottom-right"></div>
 
-        <div className="text-6xl mb-4">💥</div>
+        <div className="text-4xl mb-4">🌙</div>
+        <h2 className="text-2xl font-pixel text-pink-400 mb-4">OOPS</h2>
+        <p className="text-cyan-200 mb-4">
+          {message || "Something unexpected happened. That's okay - let's try again."}
+        </p>
 
-        <h2 className="text-2xl font-pixel text-red-400 mb-4">
-          MERGE CONFLICT!
-        </h2>
-
-        <div className="font-mono text-sm text-red-300 bg-red-900/30 p-4 rounded mb-6 text-left">
-          <p className="text-red-500">error: could not continue adventure</p>
-          <p className="text-gray-400 mt-2">{message || "An unexpected error occurred"}</p>
+        {/* Gentle reminder */}
+        <div className="p-3 rounded bg-purple-900/30 border border-purple-400/30 mb-6">
+          <p className="text-sm text-purple-300">
+            It's perfectly normal for things to not work sometimes.
+            Take a breath, and we'll try again together.
+          </p>
         </div>
 
         <button
